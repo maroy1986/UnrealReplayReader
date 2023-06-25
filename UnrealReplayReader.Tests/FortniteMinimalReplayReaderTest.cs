@@ -21,7 +21,7 @@ public class FortniteMinimalReplayReaderTest
             },
             Playlist = "Playlist_NoBuildBR_Solo",
             MatchId = "140c02856903406fbd7ae310af14ba67",
-            MatchTime = new DateTime(638219206017500000)
+            MatchTime = new DateTime(638218702017500000)
         };
         var settings = new ReplayReaderSettings
         {
