@@ -1,4 +1,5 @@
 using System.Text.Json;
+
 using UnrealReplayReader.Fortnite.Events;
 using UnrealReplayReader.Fortnite.Handlers;
 using UnrealReplayReader.Fortnite.Models.Exports;
@@ -24,14 +25,12 @@ public class FortniteReplayReader : ReplayReader<FortniteReplay>
 
     public override void EmitActorSpawn(NetFieldExportGroup exportGroup, Actor actor, string? staticActorId)
     {
-        if (exportGroup?.Configuration?.Model != null)
+        if (exportGroup?.Configuration?.Model == null) return;
+        switch (exportGroup.Configuration.Model)
         {
-            switch (exportGroup.Configuration.Model)
-            {
-                case PlayerPawnExport playerPawn:
-                    HandlePlayerPawn.OnActorSpawn(playerPawn, actor, Replay.MatchData, Replay.StateData);
-                    break;
-            }
+            case PlayerPawnExport playerPawn:
+                HandlePlayerPawn.OnActorSpawn(playerPawn, actor, Replay.MatchData, Replay.StateData);
+                break;
         }
     }
 
@@ -146,50 +145,49 @@ public class FortniteReplayReader : ReplayReader<FortniteReplay>
 
     public override void EmitReadReplayFinished()
     {
-        if (Settings.IsDebug)
-        {
-            File.WriteAllText("NetFieldExports.json", JsonSerializer.Serialize(Replay.ExportGroupDict,
-                new JsonSerializerOptions
-                {
-                    WriteIndented = true
-                }));
-            File.WriteAllText("PartiallyHydratedNetFieldExports.json", JsonSerializer.Serialize(Replay.ExportGroupDict
-                    .Where(x =>
-                        x.Value.Any(x => x.Value.Count == 0) &&
-                        x.Value.Any(x => x.Value.Count > 0)
-                    ),
-                new JsonSerializerOptions
-                {
-                    WriteIndented = true
-                }));
-            File.WriteAllText("FailedPaths.json", JsonSerializer.Serialize(
-                GuidCache.FailedPaths.Values.ToHashSet().OrderBy(x => x),
-                new JsonSerializerOptions
-                {
-                    WriteIndented = true
-                }));
+        if (!Settings.IsDebug) return;
 
-            File.WriteAllText("FailedStaticPaths.json", JsonSerializer.Serialize(
-                GuidCache.FailedStaticPaths.Values
-                    .OrderBy(x => x)
-                    .GroupBy(x => x)
-                    .OrderByDescending(x => x.Count())
-                    .ToDictionary(x => x.Key, x => x.Count()),
-                new JsonSerializerOptions
-                {
-                    WriteIndented = true
-                }));
-            File.WriteAllText("NetGuids.json", JsonSerializer.Serialize(
-                GuidCache.NetGuids.Values
-                    .Select(x => x.Path)
-                    .OrderBy(x => x)
-                    .GroupBy(x => x)
-                    .ToDictionary(x => x.Key, x => x.Count())
-                    .ToList(),
-                new JsonSerializerOptions
-                {
-                    WriteIndented = true
-                }));
-        }
+        File.WriteAllText("NetFieldExports.json", JsonSerializer.Serialize(Replay.ExportGroupDict,
+            new JsonSerializerOptions
+            {
+                WriteIndented = true
+            }));
+        File.WriteAllText("PartiallyHydratedNetFieldExports.json", JsonSerializer.Serialize(Replay.ExportGroupDict
+                .Where(x =>
+                    x.Value.Any(x => x.Value.Count == 0) &&
+                    x.Value.Any(x => x.Value.Count > 0)
+                ),
+            new JsonSerializerOptions
+            {
+                WriteIndented = true
+            }));
+        File.WriteAllText("FailedPaths.json", JsonSerializer.Serialize(
+            GuidCache.FailedPaths.Values.ToHashSet().OrderBy(x => x),
+            new JsonSerializerOptions
+            {
+                WriteIndented = true
+            }));
+
+        File.WriteAllText("FailedStaticPaths.json", JsonSerializer.Serialize(
+            GuidCache.FailedStaticPaths.Values
+                .OrderBy(x => x)
+                .GroupBy(x => x)
+                .OrderByDescending(x => x.Count())
+                .ToDictionary(x => x.Key, x => x.Count()),
+            new JsonSerializerOptions
+            {
+                WriteIndented = true
+            }));
+        File.WriteAllText("NetGuids.json", JsonSerializer.Serialize(
+            GuidCache.NetGuids.Values
+                .Select(x => x.Path)
+                .OrderBy(x => x)
+                .GroupBy(x => x)
+                .ToDictionary(x => x.Key, x => x.Count())
+                .ToList(),
+            new JsonSerializerOptions
+            {
+                WriteIndented = true
+            }));
     }
 }

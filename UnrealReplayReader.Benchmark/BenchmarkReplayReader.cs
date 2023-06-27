@@ -30,13 +30,13 @@ public class BenchmarkReplayReader
     };
     
     [Benchmark]
-    public void ParseReplayForniteReplayReader()
+    public void ParseReplayFortniteReplayReader()
     {
         var replay = FortniteReplayReader.FromFile(ReplayFile, Settings);
     }
     
     [Benchmark]
-    public void ParseReplayForniteMinimalReplayReader()
+    public void ParseReplayFortniteMinimalReplayReader()
     {
         var replay = FortniteMinimalReplayReader.FromFile(ReplayFile, SettingsMinimal);
     }

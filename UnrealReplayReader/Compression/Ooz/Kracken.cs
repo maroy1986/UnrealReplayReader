@@ -1,6 +1,6 @@
 ﻿/*
 === Kraken Decompressor for Windows ===
-Convetred to C# for Fortnite from: https://github.com/powzix/ooz
+Converted to C# for Fortnite from: https://github.com/powzix/ooz
 */
 
 using UnrealReplayReader.Compression.Ooz.Extensions;

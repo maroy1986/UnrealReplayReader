@@ -77,11 +77,14 @@ public class FortniteMinimalReplayReader : ReplayReader<FortniteMinimalReplay>
     {
         var rawName = playerState.PlayerNamePrivate;
         var builder = new StringBuilder();
-        for (var i = 0; i < playerState.PlayerNamePrivate.Length; i++)
+
+        if (rawName == null) return builder.ToString();
+
+        for (var i = 0; i < rawName.Length; i++)
         {
             var shift = (rawName.Length % 4 * 3 % 8 + 1 + i) * 3 % 8;
             var characterValue = rawName[i] + shift;
-            builder.Append((char)characterValue);
+            builder.Append((char) characterValue);
         }
 
         return builder.ToString();
