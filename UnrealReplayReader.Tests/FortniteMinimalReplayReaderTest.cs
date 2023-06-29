@@ -21,7 +21,7 @@ public class FortniteMinimalReplayReaderTest
             },
             Playlist = "Playlist_NoBuildBR_Squad",
             MatchId = "140acae7dcd84bba9ce020ab5f04ad70",
-            MatchTime = new DateTime(638233574236320000)
+            MatchTime = TimeZoneInfo.ConvertTime(new DateTime(638233574236320000), TimeZoneInfo.FindSystemTimeZoneById("America/Toronto"))
         };
         var settings = new ReplayReaderSettings
         {
