@@ -28,12 +28,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="Replays\Chapter4_Season3_25.10.replay" />
-      <None Remove="Replays\Chapter4_Season5.replay" />
-      <Content Include="Replays\Chapter4_Season3_25.10.replay">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
-      <Content Include="Replays\Chapter4_Season5.replay">
+      <None Remove="Replays\CH04SE3_25_20.replay" />
+      <Content Include="Replays\CH04SE3_25_20.replay">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
     </ItemGroup>

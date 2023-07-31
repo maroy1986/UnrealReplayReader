@@ -20,8 +20,8 @@ public class FortniteMinimalReplayReaderTest
                 DisplayName = "nmzlf0x"
             },
             Playlist = "Playlist_NoBuildBR_Squad",
-            MatchId = "140acae7dcd84bba9ce020ab5f04ad70",
-            MatchTime = TimeZoneInfo.ConvertTime(new DateTime(638233574236320000), TimeZoneInfo.FindSystemTimeZoneById("America/Toronto"))
+            MatchId = "fbc5f85bca534a4eaa90f349a279816f",
+            MatchTime = TimeZoneInfo.ConvertTime(new DateTime(638262936271150000), TimeZoneInfo.FindSystemTimeZoneById("America/Toronto"))
         };
         var settings = new ReplayReaderSettings
         {
@@ -30,16 +30,16 @@ public class FortniteMinimalReplayReaderTest
             UseCheckpoints = false,
             ExportConfiguration = ReplayExportConfiguration.FromAssembly(typeof(GameState))
         };
-        var replay = FortniteMinimalReplayReader.FromFile("Replays/Chapter4_Season3_25.10.replay", settings);
+        var replay = FortniteMinimalReplayReader.FromFile("Replays/CH04SE3_25_20.replay", settings);
 
         replay.Header.EngineVersion.Branch.Should()
-            .Be("++Fortnite+Release-25.10");
+            .Be("++Fortnite+Release-25.20");
         replay.Header.Version.Should()
             .Be(ENetworkVersionHistory.HistoryUseCustomVersion);
         replay.Header.Platform.Should()
             .Be("WindowsClient");
         replay.ExportGroupDict.Count.Should()
-            .Be(806);
+            .Be(466);
         expectedMatch.Should()
             .BeEquivalentTo(replay.Match);
     }
